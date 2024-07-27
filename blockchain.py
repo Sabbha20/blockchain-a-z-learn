@@ -18,3 +18,8 @@ class Blockchain:
         }
         self.chain.append(block)
         return block
+
+    def get_previous_block(self):
+        if len(self.chain) == 0:
+            return "Blockchain is empty"
+        return self.chain[-1]
