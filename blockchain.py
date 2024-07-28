@@ -77,7 +77,7 @@ def mine_block():
     response = {
         "message": "You mined a block, Buddy!!! ",
         "index": curr_block["index"],
-        "time_stamp": curr_block["timestamp"],
+        "timestamp": curr_block["timestamp"],
         "proof": curr_block["proof"],
         "previous_hash": curr_block["previous_hash"]
     }
@@ -90,6 +90,8 @@ def mine_block():
 def get_chain():
     response = {
         "chain": bcn.chain,
-        "length": len(bcn.chain)
+        "length": len(bcn.chain),
+        "latest_block": bcn.chain[-1] if bcn.chain else "No blocks in the chain yet.",
+        "timestamp": bcn.chain[-1]['timestamp'] if bcn.chain else "N/A",
     }
     return jsonify(response), 200
