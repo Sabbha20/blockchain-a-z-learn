@@ -4,6 +4,7 @@ import json
 from flask import Flask, jsonify
 
 
+# Our Blockchain structure
 class Blockchain:
     def __init__(self):
         self.chain = []
@@ -55,3 +56,10 @@ class Blockchain:
                 return False
             previous_block = curr_block
             block_idx += 1
+
+
+# Web app
+app = Flask(__name__)
+
+# Our very first Blockchain
+bcn = Blockchain()
