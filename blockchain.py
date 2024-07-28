@@ -58,6 +58,7 @@ class Blockchain:
 
 # Web app
 app = Flask(__name__)
+# app.config['JSONIFY_PRETTYPRINT_REGULAR'] = False
 
 # Our very first Blockchain
 bcn = Blockchain()
@@ -91,7 +92,11 @@ def get_chain():
     response = {
         "chain": bcn.chain,
         "length": len(bcn.chain),
-        "latest_block": bcn.chain[-1] if bcn.chain else "No blocks in the chain yet.",
         "timestamp": bcn.chain[-1]['timestamp'] if bcn.chain else "N/A",
+        "message": "Blockchain data retrieved successfully.",
     }
     return jsonify(response), 200
+
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=8000)
