@@ -83,3 +83,13 @@ def mine_block():
     }
 
     return jsonify(response), 200
+
+
+# fetching full blockchain
+@app.route("/get_chain", methods=["GET"])
+def get_chain():
+    response = {
+        "chain": bcn.chain,
+        "length": len(bcn.chain)
+    }
+    return jsonify(response), 200
