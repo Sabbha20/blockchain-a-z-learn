@@ -21,8 +21,6 @@ class Blockchain:
         return block
 
     def get_previous_block(self):
-        if len(self.chain) == 0:
-            return "Blockchain is empty"
         return self.chain[-1]
 
     def proof_of_work(self, previous_proof):
@@ -63,3 +61,25 @@ app = Flask(__name__)
 
 # Our very first Blockchain
 bcn = Blockchain()
+
+
+# Mining new block
+@app.route("/mine_block", methods=["GET"])
+def mine_block():
+    previous_block = bcn.get_previous_block()
+    previous_proof = previous_block["proof"]
+
+    curr_proof = bcn.proof_of_work(previous_proof=previous_proof)
+    previous_hash = bcn.hash(previous_block)
+
+    curr_block = bcn.create_block(curr_proof, previous_hash)
+
+    response = {
+        "message": "You mined a block, Buddy!!! ",
+        "index": curr_block["index"],
+        "time_stamp": curr_block["timestamp"],
+        "proof": curr_block["proof"],
+        "previous_hash": curr_block["previous_hash"]
+    }
+
+    return jsonify(response), 200
