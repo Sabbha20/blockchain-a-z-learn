@@ -55,6 +55,8 @@ class Blockchain:
             previous_block = curr_block
             block_idx += 1
 
+        return True
+
 
 # Web app
 app = Flask(__name__)
@@ -95,6 +97,19 @@ def get_chain():
         "timestamp": bcn.chain[-1]['timestamp'] if bcn.chain else "N/A",
         "message": "Blockchain data retrieved successfully.",
     }
+    return jsonify(response), 200
+
+
+@app.route("/is_valid", methods=["GET"])
+def is_valid():
+    b_chain = bcn.chain
+    response = {
+        "latest-block": b_chain[-1],
+        "validity": "VALID" if bcn.is_chain_valid(b_chain) else "INVALID",
+        "timestamp": b_chain[-1]['timestamp'] if bcn.chain else "N/A",
+
+    }
+
     return jsonify(response), 200
 
 
