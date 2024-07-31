@@ -3,7 +3,8 @@ import hashlib
 import json
 from flask import Flask, jsonify
 
-
+LEADING_ZEROS = "000000000000000000"
+SPLIT_CHECK = len(LEADING_ZEROS)
 # Our Blockchain structure
 class Blockchain:
     def __init__(self):
@@ -29,7 +30,7 @@ class Blockchain:
         while check_proof is False:
             hash_operation = hashlib.sha256(
                 str(new_proof ** 2 - previous_proof ** 2).encode()).hexdigest()
-            if hash_operation[:4] == "0000":
+            if hash_operation[:SPLIT_CHECK] == LEADING_ZEROS:
                 check_proof = True
             else:
                 new_proof += 1
@@ -50,7 +51,7 @@ class Blockchain:
             curr_proof = curr_block["proof"]
             hash_operation = hashlib.sha256(
                 str(curr_proof ** 2 - previous_proof ** 2).encode()).hexdigest()
-            if hash_operation[:4] != "0000":
+            if hash_operation[:SPLIT_CHECK] != LEADING_ZEROS:
                 return False
             previous_block = curr_block
             block_idx += 1
