@@ -4,6 +4,10 @@ import json
 from flask import Flask, jsonify
 import logging
 
+# Configure logging
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+
+
 LEADING_ZEROS = "000000000000000000"
 SPLIT_CHECK = len(LEADING_ZEROS)
 
