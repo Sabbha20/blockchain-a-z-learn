@@ -2,9 +2,12 @@ import datetime
 import hashlib
 import json
 from flask import Flask, jsonify
+import logging
 
 LEADING_ZEROS = "000000000000000000"
 SPLIT_CHECK = len(LEADING_ZEROS)
+
+
 # Our Blockchain structure
 class Blockchain:
     def __init__(self):
@@ -70,13 +73,20 @@ bcn = Blockchain()
 # Mining new block
 @app.route("/mine_block", methods=["GET"])
 def mine_block():
+    logging.info("Mining a new block")
     previous_block = bcn.get_previous_block()
     previous_proof = previous_block["proof"]
+    logging.debug(f"Previous block: {previous_block}")
+    logging.debug(f"Previous proof: {previous_proof}")
 
     curr_proof = bcn.proof_of_work(previous_proof=previous_proof)
     previous_hash = bcn.hash(previous_block)
 
+    logging.debug(f"Current proof: {curr_proof}")
+    logging.debug(f"Previous block hash: {previous_hash}")
+
     curr_block = bcn.create_block(curr_proof, previous_hash)
+    logging.info(f"New block mined: {curr_block}")
 
     response = {
         "message": "You mined a block, Buddy!!! ",
